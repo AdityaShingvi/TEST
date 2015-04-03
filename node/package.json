@@ -1,0 +1,6 @@
+{
+  "name": "Twitter",
+  "dependencies": {
+    "mongoose": "^4.0.1"
+  }
+}
