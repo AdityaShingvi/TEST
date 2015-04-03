@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+		<title>Go MEAN</title>
+	</head>
+
+	<body ng-app='app'>
+		<div ng-controller='PostsCtrl' class="container">
+			<h1>Recent Posts</h1>
+			<form role='form'>
+				<div class='form-group'>
+					<div class="input-group">
+						<input ng-model='postBody' class="form-control" />
+						<span class="input-group-btn">
+							<button ng-click='addPost()' class="btn btn-default">Add Posts</button>
+						</span>			
+					</div><!-- end input-group-->
+				</div><!-- end form-group-->
+			</form><!-- end form-->
+			<ul class="list-group">
+				<li ng-repeat='post in posts' class="list-group-item">
+					<strong>@{{post.username}}</strong>
+					<span>{{post.body}}</span>
+				</li>
+			</ul> <!-- end list group-->
+		</div><!-- end container-->
+
+		<script type="text/javascript" src="../js/angular.js"></script>
+		<script>
+			//create our app module
+			var app = angular.module('app',[])
+
+			//create the PostsCtrl module
+			//dependency inject $scope, $http
+			app.controller('PostsCtrl', function ($scope, $http) {
+
+				//the function runs when the "Add Posts" button is clicked
+				$scope.addPost = function(){
+					//only add a post if there is a body
+					if ($scope.postBody) {
+						alert("aaaaa")
+						$http.get('http://localhost/api/posts')
+						.success(function (posts){
+							$scope.posts = posts
+							alert("bbbbb")
+						})
+						.error(function(err){
+							alert(err)
+						})
+						/*//unshift a new post into $scope.posts
+						$scope.posts.unshift({
+							username: 'adi',
+							body: $scope.postBody //use the text entered
+						})*/
+						//clear out the input field
+						//$scope.postBody = null
+
+						$http.post('http://localhost/api/posts',{
+							username: 'dickey',
+							body: $scope.postBody
+						}).success(function (post){
+							$scope.posts.unshift(post)
+							$scope.postBody = null
+						})
+					}
+				}
+
+				//starting data
+				$scope.posts = [
+					{
+						username: 'aditya',
+						body: 'Node rules!'
+					},
+					{
+						username: 'john',
+						body: 'MEAN does too!'
+					}
+				]
+			})
+		</script>
+	</body>
+</html>
