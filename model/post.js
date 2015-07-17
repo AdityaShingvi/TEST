@@ -1,7 +1,7 @@
-var db = require('../db')
-db.createMongoConnection();
+var database = require('../db')
+database.createMongoConnection();
 
-var Post = db.model('Post', {
+var Post = database.model('Post', {
 	username:{type: String, required: true},
 	body: {type: String, required: true},
 	date: {type: Date, required: true, default: Date.now }
